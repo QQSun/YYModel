@@ -13,12 +13,20 @@
 #import "YYModel.h"
 
 
-@interface YYTestPropertyMapperModelAuto : NSObject
+@interface YYTestPropertyMapperModelAuto : NSObject <YYModel>
 @property (nonatomic, assign) NSString *name;
 @property (nonatomic, assign) NSNumber *count;
+@property (nonatomic, copy) NSString *price;
+
 @end
 
 @implementation YYTestPropertyMapperModelAuto
+
+- (NSString *)price {
+    NSLog(@"-----------%@", _price);
+    return _price;
+}
+
 @end
 
 @interface YYTestPropertyMapperModelCustom : NSObject
@@ -120,10 +128,11 @@
     NSString *json;
     YYTestPropertyMapperModelAuto *model;
     
-    json = @"{\"name\":\"Apple\",\"count\":12}";
+    json = @"{\"name\":\"Apple\",\"count\":12,\"price\":99.4}";
     model = [YYTestPropertyMapperModelAuto yy_modelWithJSON:json];
     XCTAssertTrue([model.name isEqualToString:@"Apple"]);
     XCTAssertTrue([model.count isEqual:@12]);
+    XCTAssertTrue([model.price isEqualToString:@"99.4"]);
     
     json = @"{\"n\":\"Apple\",\"count\":12, \"description\":\"hehe\"}";
     model = [YYTestPropertyMapperModelAuto yy_modelWithJSON:json];
